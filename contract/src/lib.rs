@@ -101,16 +101,23 @@ impl News{
     }
 
     pub fn upvote(&mut self, index: u32) {
+        if (index as usize) < self.news.len(){
         self.news[index as usize].like = self.news[index as usize].like.saturating_add(1);
+        }
     }
+
     pub fn downvote(&mut self, index: u32) {
+        if (index as usize) < self.news.len(){
         self.news[index as usize].dislike = self.news[index as usize].dislike.saturating_add(1);
+        }
     }
-    pub fn get_like(&self, index: u32) -> &u64 {
-        &self.news[index as usize].like
+    pub fn get_like(&self, index: u32) -> u64 {
+        assert!((index as usize) < self.news.len());
+        self.news[index as usize].like
     }
-    pub fn get_dislike(&self, index: u32) -> &u64 {
-        &self.news[index as usize].dislike
+    pub fn get_dislike(&self, index: u32) -> u64 {
+        assert!((index as usize) < self.news.len());
+        self.news[index as usize].dislike
     }
 }
 
@@ -152,7 +159,7 @@ mod tests {
 
         println!("{}", &news.get_dislike(0));
 
-        assert!(news.get_dislike(0) == &(0 as u64));
+        assert!(news.get_dislike(0) != (0 as u64));
     }
 
     #[test]
@@ -164,6 +171,6 @@ mod tests {
 
         println!("{}", &news.get_like(0));
 
-        assert!(news.get_dislike(0) == &(0 as u64));
+        assert!(news.get_like(0) != (0 as u64));
     }
 }
