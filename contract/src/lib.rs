@@ -63,10 +63,6 @@ impl News{
         }
     }
 
-    // pub fn get_all(&self)-> Vec<FN>{
-    //     self.news.clone()
-    // }
-
     pub fn display_by_index(&self, index: u32){
         if (index as usize) < self.news.len(){
             println!("Element {:#?} on index {}", self.news[index as usize].clone(), index);
