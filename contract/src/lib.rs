@@ -19,69 +19,106 @@ use near_sdk::collections::{LookupMap, Vector};
 setup_alloc!();
 
 #[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize, Debug)]
+#[derive(BorshDeserialize, BorshSerialize, Debug, Clone)]
 pub struct FN{
     pub id:u32,
     pub hash_head: String,
     pub hash_body: String,
-    pub uri: String
-}
-#[near_bindgen]
-impl FN{
-    pub fn clone(&self)->FN{
-        FN{
-            id: self.id.clone(), 
-            hash_head: self.hash_head.clone(), 
-            hash_body: self.hash_body.clone(),
-            uri: self.uri.clone()
-        }
-    }
+    pub uri: String,
+    pub like: u64,
+    pub dislike: u64,
 }
 
 #[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize, Debug)]
+impl FN{
+    pub fn upvote(&mut self) {
+        self.like = self.like.saturating_add(1);
+    }
+    pub fn downvote(&mut self) {
+        self.dislike = self.dislike.saturating_add(1);
+    }
+    pub fn get_like(&self) -> &u64 {
+        &self.like
+    }
+    pub fn get_dislike(&self) -> &u64 {
+        &self.dislike
+    }
+}
+
+
+
+#[near_bindgen]
+#[derive(BorshDeserialize, BorshSerialize, Debug, Clone)]
 pub struct News{
     news: Vec<FN>,
-    counter: u32,
 }
+
 
 #[near_bindgen]
 impl News{
     pub fn add(&mut self, hash_head: String, hash_body:String, uri: String){
-        self.counter+=1;
+        
         self.news.push(FN{
-            id: self.counter, 
+            id: (self.news.len() as u32)+1, 
             hash_head, 
             hash_body, 
-            uri
+            uri,
+            like: 0,
+            dislike: 0,
         });
     }
 
     pub fn display_all(&self){
         for i in self.news.iter(){
-            println!("{}. {}", &i.id, &i.uri);
+            println!("{}. {}. Likes {}. Dislikes {}.", &i.id, &i.uri, &i.like, &i.dislike);
         }
     }
 
     pub fn display_by_index(&self, index: u32){
         if (index as usize) < self.news.len(){
-            println!("Element {:#?} on index {}", self.news[index as usize].clone(), index);
+            println!("{}. {} . Likes {}. Dislikes {}.", 
+            self.news[index as usize].id, 
+            self.news[index as usize].uri,
+            self.news[index as usize].like,
+            self.news[index as usize].dislike);
         }
+    }
+
+    pub fn get_all(&self)-> Vec<FN>{
+        self.vec_clone()
     }
 
     pub fn get_by_index(&self, index: u32)-> FN{
         self.news[index as usize].clone()
     }
 
-    pub fn clone(&self) -> Vec<FN>{
+    pub fn vec_clone(&self) -> Vec<FN>{
         let mut news_clone: Vec<FN>= Vec::new();
         for i in self.news.iter(){
             news_clone.push(i.clone());
         }
         news_clone
     }
+
+    pub fn upvote(&mut self, index: u32) {
+        self.news[index as usize].like = self.news[index as usize].like.saturating_add(1);
+    }
+    pub fn downvote(&mut self, index: u32) {
+        self.news[index as usize].dislike = self.news[index as usize].dislike.saturating_add(1);
+    }
+    pub fn get_like(&self, index: u32) -> &u64 {
+        &self.news[index as usize].like
+    }
+    pub fn get_dislike(&self, index: u32) -> &u64 {
+        &self.news[index as usize].dislike
+    }
 }
 
+impl Default for News{
+    fn default()-> Self{
+        News{ news: Vec::new()}
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -89,19 +126,44 @@ mod tests {
 
     #[test]
     fn display_test(){
-        let p = FN{id: 0, hash_head: "jsd4vfj".to_string(), hash_body: "hrsh465".to_string(), uri: "uri".to_string()};
-        let mut news: News = News{ news: Vec::new(), counter: 0};
+        let mut news: News = News::default();
         news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
-
+        
+        news.downvote(0);
         println!("---------");
         news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
         news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
+        news.upvote(1);
+        
         news.display_all();
         println!("---------");
         news.display_by_index(1);
 
         let a = news.get_by_index(1);
-        println!("A:  {:#?} ", a);
         assert!(news.news.len()>0);
+    }
+
+    #[test]
+    fn dislike_test(){
+        let mut news: News = News::default();
+        news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
+        
+        news.downvote(0);
+
+        println!("{}", &news.get_dislike(0));
+
+        assert!(news.get_dislike(0) == &(0 as u64));
+    }
+
+    #[test]
+    fn like_test(){
+        let mut news: News = News::default();
+        news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
+        
+        news.upvote(0);
+
+        println!("{}", &news.get_like(0));
+
+        assert!(news.get_dislike(0) == &(0 as u64));
     }
 }
