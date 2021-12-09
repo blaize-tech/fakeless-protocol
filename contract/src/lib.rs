@@ -29,22 +29,6 @@ pub struct FN{
     pub dislike: u64,
 }
 
-#[near_bindgen]
-impl FN{
-    pub fn upvote(&mut self) {
-        self.like = self.like.saturating_add(1);
-    }
-    pub fn downvote(&mut self) {
-        self.dislike = self.dislike.saturating_add(1);
-    }
-    pub fn get_like(&self) -> &u64 {
-        &self.like
-    }
-    pub fn get_dislike(&self) -> &u64 {
-        &self.dislike
-    }
-}
-
 
 
 #[near_bindgen]
