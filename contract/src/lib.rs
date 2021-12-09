@@ -54,17 +54,17 @@ impl News{
 
     pub fn display_all(&self){
         for i in self.news.iter(){
-            println!("{}. {}. Likes {}. Dislikes {}.", &i.id, &i.uri, &i.like, &i.dislike);
+            println!("{}. {}. Likes {}. Dislikes {}.", i.id, i.uri, i.like, i.dislike);
         }
     }
 
-    pub fn display_by_index(&self, index: u32){
-        if (index as usize) < self.news.len(){
+    pub fn display_by_index(&self, index: usize){
+        if (index) < self.news.len(){
             println!("{}. {} . Likes {}. Dislikes {}.", 
-            self.news[index as usize].id, 
-            self.news[index as usize].uri,
-            self.news[index as usize].like,
-            self.news[index as usize].dislike);
+            self.news[index].id, 
+            self.news[index].uri,
+            self.news[index].like,
+            self.news[index].dislike);
         }
     }
 
@@ -72,8 +72,8 @@ impl News{
         self.vec_clone()
     }
 
-    pub fn get_by_index(&self, index: u32)-> FN{
-        self.news[index as usize].clone()
+    pub fn get_by_index(&self, index: usize)-> FN{
+        self.news[index].clone()
     }
 
     pub fn vec_clone(&self) -> Vec<FN>{
@@ -84,24 +84,24 @@ impl News{
         news_clone
     }
 
-    pub fn upvote(&mut self, index: u32) {
-        if (index as usize) < self.news.len(){
-        self.news[index as usize].like = self.news[index as usize].like.saturating_add(1);
+    pub fn upvote(&mut self, index: usize) {
+        if index  < self.news.len(){
+        self.news[index ].like = self.news[index ].like.saturating_add(1);
         }
     }
 
-    pub fn downvote(&mut self, index: u32) {
-        if (index as usize) < self.news.len(){
-        self.news[index as usize].dislike = self.news[index as usize].dislike.saturating_add(1);
+    pub fn downvote(&mut self, index: usize) {
+        if index < self.news.len(){
+        self.news[index ].dislike = self.news[index ].dislike.saturating_add(1);
         }
     }
-    pub fn get_like(&self, index: u32) -> u64 {
-        assert!((index as usize) < self.news.len());
-        self.news[index as usize].like
+    pub fn get_like(&self, index: usize) -> u64 {
+        assert!(index < self.news.len());
+        self.news[index].like
     }
-    pub fn get_dislike(&self, index: u32) -> u64 {
-        assert!((index as usize) < self.news.len());
-        self.news[index as usize].dislike
+    pub fn get_dislike(&self, index: usize) -> u64 {
+        assert!(index < self.news.len());
+        self.news[index].dislike
     }
 }
 
@@ -141,7 +141,7 @@ mod tests {
         
         news.downvote(0);
 
-        println!("{}", &news.get_dislike(0));
+        println!("{}", news.get_dislike(0));
 
         assert!(news.get_dislike(0) != (0 as u64));
     }
@@ -153,7 +153,7 @@ mod tests {
         
         news.upvote(0);
 
-        println!("{}", &news.get_like(0));
+        println!("{}", news.get_like(0));
 
         assert!(news.get_like(0) != (0 as u64));
     }
