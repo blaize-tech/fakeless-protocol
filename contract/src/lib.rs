@@ -13,12 +13,13 @@
 
 // To conserve gas, efficient serialization is achieved through Borsh (http://borsh.io/)
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
+use near_sdk::serde::{Serialize, Deserialize};
 use near_sdk::{/*env, */near_bindgen, setup_alloc};
 //use near_sdk::collections::{LookupMap, Vector};
 
 setup_alloc!();
 
-#[derive(BorshDeserialize, BorshSerialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize, Debug, Clone)]
 #[serde(crate = "near_sdk::serde")]
 pub struct FN{
     pub id:u32,
@@ -28,6 +29,7 @@ pub struct FN{
     pub like: u64,
     pub dislike: u64,
 }
+
 
 
 
