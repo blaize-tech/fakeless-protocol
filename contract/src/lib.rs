@@ -18,8 +18,8 @@ use near_sdk::{/*env, */near_bindgen, setup_alloc};
 
 setup_alloc!();
 
-#[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, Debug, Clone)]
+#[serde(crate = "near_sdk::serde")]
 pub struct FN{
     pub id:u32,
     pub hash_head: String,
