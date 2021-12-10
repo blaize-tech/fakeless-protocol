@@ -89,15 +89,15 @@ Example usage
 =============
 
 1. add news
-near call contract_name.testnet add '{"hash_head": "header_sha256", "hash_body": "body_sha256", "uri": "URI"}' --accountId example-acct.testnet
+near call my-project.YOUR-NAME.testnet add '{"hash_head": "header_sha256", "hash_body": "body_sha256", "uri": "URI"}' --accountId YOUR-NAME.testnet
 2. upvote
-Call news.pavlo.testnet upvote '{"index": 0}' --accountId example-acct.testnet
+near call my-project.YOUR-NAME.testnet upvote '{"index": 0}' --accountId YOUR-NAME.testnet
 3. downvote
-near call contract_name.testnet downvote '{"index": 0}' --accountId example-acct.testnet
+near call my-project.YOUR-NAME.testnet downvote '{"index": 0}' --accountId YOUR-NAME.testnet
 4. receive all news
-near call contract_name.testnet get_all '{}' --accountId name.testnet
+near call my-project.YOUR-NAME.testnet get_all '{}' --accountId YOUR-NAME.testnet
 5. receive news by index
-near call contract_name.testnet get_by_index '{"index": 0}' --accountId example-acct.testnet
+near call my-project.YOUR-NAME.testnet get_by_index '{"index": 0}' --accountId YOUR-NAME.testnet
 
 
 Troubleshooting
