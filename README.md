@@ -88,15 +88,15 @@ As you can see in `package.json`, this does two things:
 Example usage
 =============
 
-1. add news
+1. Add news <br>
 near call my-project.YOUR-NAME.testnet add '{"hash_head": "header_sha256", "hash_body": "body_sha256", "uri": "URI"}' --accountId YOUR-NAME.testnet
-2. upvote
+2. Upvote <br>
 near call my-project.YOUR-NAME.testnet upvote '{"index": 0}' --accountId YOUR-NAME.testnet
-3. downvote
+3. Downvote <br>
 near call my-project.YOUR-NAME.testnet downvote '{"index": 0}' --accountId YOUR-NAME.testnet
-4. receive all news
+4. Receive all news <br>
 near call my-project.YOUR-NAME.testnet get_all '{}' --accountId YOUR-NAME.testnet
-5. receive news by index
+5. Receive news by index <br>
 near call my-project.YOUR-NAME.testnet get_by_index '{"index": 0}' --accountId YOUR-NAME.testnet
 
 
