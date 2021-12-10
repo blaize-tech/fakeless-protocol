@@ -89,15 +89,25 @@ Example usage
 =============
 
 1. Add news <br>
-near call my-project.YOUR-NAME.testnet add '{"hash_head": "header_sha256", "hash_body": "body_sha256", "uri": "URI"}' --accountId YOUR-NAME.testnet
+<pre>
+<code>near call my-project.YOUR-NAME.testnet add '{"hash_head": "header_sha256", "hash_body": "body_sha256", "uri": "URI"}' --accountId YOUR-NAME.testnet</code>
+</pre>
 2. Upvote <br>
-near call my-project.YOUR-NAME.testnet upvote '{"index": 0}' --accountId YOUR-NAME.testnet
+<pre>
+<code>near call my-project.YOUR-NAME.testnet upvote '{"index": 0}' --accountId YOUR-NAME.testnet</code>
+</pre>
 3. Downvote <br>
-near call my-project.YOUR-NAME.testnet downvote '{"index": 0}' --accountId YOUR-NAME.testnet
+<pre>
+<code>near call my-project.YOUR-NAME.testnet downvote '{"index": 0}' --accountId YOUR-NAME.testnet</code>
+</pre>
 4. Receive all news <br>
-near call my-project.YOUR-NAME.testnet get_all '{}' --accountId YOUR-NAME.testnet
+<pre>
+<code>near call my-project.YOUR-NAME.testnet get_all '{}' --accountId YOUR-NAME.testnet</code>
+</pre>
 5. Receive news by index <br>
-near call my-project.YOUR-NAME.testnet get_by_index '{"index": 0}' --accountId YOUR-NAME.testnet
+<pre>
+<code>near call my-project.YOUR-NAME.testnet get_by_index '{"index": 0}' --accountId YOUR-NAME.testnet</code>
+</pre>
 
 
 Troubleshooting
