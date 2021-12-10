@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  -moz-padding-start: 0px;
+  color: #000;
+}
+
+.App {}
+
+.header {
+  background-color: #fff;
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: #000;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.menu  {
+  list-style-type: none;
+  display: flex; 
+  color: #000;
+}
+
+.menu li {
+  flex: 3; 
+  height: 25px;
+  vertical-align: middle;
+}
+
+.menu li a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 5px 0;
+  width: 100%;
+}
+
+.menu li a.active {
+  text-decoration: underline;
+}
+
+
+.formclass {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.formclass div {
+  padding: 5px 0;
+}
+
+.formclass input {
+  height: 30px;
+  padding: 3px;
+  width: 100%;
+}
+
+.formclass textarea {
+  height: 100px;
+  padding: 3px;
+  width: 100%;
+}
+
+.formclass button {
+  width: 30%;
+  height: 30px;
+}
+
+
+.newsPage {
+  padding: 30px 0;
+}
+
+
+.newsPage .listWrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.newsPage .listWrap li {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
+.newsPage .listWrap li div{
+  flex: 3; 
+}
+
+.newsPage .listWrap  img {
+  height: 14px;
+  width: 14px;
+}
+
+
+
+.wallet {
+  text-align: center;
+}
+.wallet ul {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.wallet ul div {
+  margin: 10px 0 ;
+}
+
+.wallet ul input{
+  height: 30px;
+  padding: 3px;
+  width: 100%;
+}
+
+.wallet ul button {
+  width: 30%;
+  height: 30px;
+}
