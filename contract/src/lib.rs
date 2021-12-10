@@ -1,28 +1,15 @@
-/*
- * This is an example of a Rust smart contract with two simple, symmetric functions:
- *
- * 1. set_greeting: accepts a greeting, such as "howdy", and records it for the user (account_id)
- *    who sent the request
- * 2. get_greeting: accepts an account_id and returns the greeting saved for it, defaulting to
- *    "Hello"
- *
- * Learn more about writing NEAR smart contracts with Rust:
- * https://github.com/near/near-sdk-rs
- *
- */
 
-// To conserve gas, efficient serialization is achieved through Borsh (http://borsh.io/)
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::serde::{Serialize, Deserialize};
-use near_sdk::{/*env, */near_bindgen, setup_alloc};
-//use near_sdk::collections::{LookupMap, Vector};
+use near_sdk::{near_bindgen, setup_alloc};
 
 setup_alloc!();
 
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize, Debug, Clone)]
 #[serde(crate = "near_sdk::serde")]
-pub struct FN{
-    pub id:u32,
+pub struct News
+{
+    pub id: u32,
     pub hash_head: String,
     pub hash_body: String,
     pub uri: String,
@@ -30,133 +17,97 @@ pub struct FN{
     pub dislike: u64,
 }
 
-
-
-
 #[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize, Debug, Clone)]
-pub struct News{
-    news: Vec<FN>,
+#[derive(Default, BorshDeserialize, BorshSerialize, Debug, Clone)]
+pub struct NewsStorage
+{
+    news: Vec<News>,
 }
 
-
 #[near_bindgen]
-impl News{
-    pub fn add(&mut self, hash_head: String, hash_body:String, uri: String){
-        
-        self.news.push(FN{
-            id: (self.news.len() as u32)+1, 
-            hash_head, 
-            hash_body, 
-            uri,
-            like: 0,
-            dislike: 0,
-        });
+impl NewsStorage
+{
+    pub fn add(&mut self, hash_head: String, hash_body:String, uri: String)
+    {
+        self.news.push(News
+            {
+                id: (self.news.len() as u32)+1, 
+                hash_head, 
+                hash_body, 
+                uri,
+                like: 0,
+                dislike: 0,
+            }
+        );
     }
 
-    pub fn display_all(&self){
-        for i in self.news.iter(){
-            println!("{}. {}. Likes {}. Dislikes {}.", i.id, i.uri, i.like, i.dislike);
-        }
+    pub fn get_all(&self)-> Vec<News>
+    {
+        self.news.clone()
     }
 
-    pub fn display_by_index(&self, index: usize){
-        if (index) < self.news.len(){
-            println!("{}. {} . Likes {}. Dislikes {}.", 
-            self.news[index].id, 
-            self.news[index].uri,
-            self.news[index].like,
-            self.news[index].dislike);
-        }
-    }
-
-    pub fn get_all(&self)-> Vec<FN>{
-        self.vec_clone()
-    }
-
-    pub fn get_by_index(&self, index: usize)-> FN{
+    pub fn get_by_index(&self, index: usize)-> News
+    {
         self.news[index].clone()
     }
 
-    pub fn vec_clone(&self) -> Vec<FN>{
-        let mut news_clone: Vec<FN>= Vec::new();
-        for i in self.news.iter(){
-            news_clone.push(i.clone());
-        }
-        news_clone
-    }
-
-    pub fn upvote(&mut self, index: usize) {
-        if index  < self.news.len(){
-        self.news[index ].like = self.news[index ].like.saturating_add(1);
-        }
-    }
-
-    pub fn downvote(&mut self, index: usize) {
-        if index < self.news.len(){
-        self.news[index ].dislike = self.news[index ].dislike.saturating_add(1);
-        }
-    }
-    pub fn get_like(&self, index: usize) -> u64 {
+    pub fn upvote(&mut self, index: usize) 
+    {
         assert!(index < self.news.len());
-        self.news[index].like
+        self.news[index].like = self.news[index].like.saturating_add(1);
     }
-    pub fn get_dislike(&self, index: usize) -> u64 {
-        assert!(index < self.news.len());
-        self.news[index].dislike
-    }
-}
 
-impl Default for News{
-    fn default()-> Self{
-        News{ news: Vec::new()}
+    pub fn downvote(&mut self, index: usize) 
+    {
+        assert!(index < self.news.len());
+        self.news[index].dislike = self.news[index].dislike.saturating_add(1);
     }
 }
 
 #[cfg(test)]
-mod tests {
+mod tests 
+{
     use super::*;
 
     #[test]
-    fn display_test(){
-        let mut news: News = News::default();
-        news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
-        
-        news.downvote(0);
-        println!("---------");
-        news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
-        news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
-        news.upvote(1);
-        
-        news.display_all();
-        println!("---------");
-        news.display_by_index(1);
+    fn add_test()
+    {
+        let mut t_news: NewsStorage = NewsStorage::default();
+        t_news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
+        assert_eq!(t_news.news.len(), 1);
+    }
 
-        let a = news.get_by_index(1);
-        assert!(news.news.len()>0);
+     #[test]
+    fn downvote_test()
+    {
+        let mut t_news: NewsStorage = NewsStorage::default();
+        t_news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
+        t_news.downvote(0);
+        assert_eq!(t_news.news[0].dislike, 1);
     }
 
     #[test]
-    fn dislike_test(){
-        let mut news: News = News::default();
-        news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
-        
-        news.downvote(0);
-
-        println!("{}", news.get_dislike(0));
-
-        assert!(news.get_dislike(0) != (0 as u64));
+    fn upvote_test()
+    {
+        let mut t_news: NewsStorage = NewsStorage::default();
+        t_news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
+        t_news.upvote(0);
+        assert_eq!(t_news.news[0].like, 1);
     }
 
     #[test]
-    fn like_test(){
-        let mut news: News = News::default();
-        news.add("sht54".to_string(),"jsbvkd465".to_string(), "uri".to_string());
-        
-        news.upvote(0);
+    fn get_by_index_test()
+    {
+        let mut news_storage = NewsStorage::default();
+        news_storage.add(String::from(""), String::from(""), String::from(""));
+        assert_eq!(news_storage.news[0].id, news_storage.get_by_index(0).id);
+    }
 
-        println!("{}", news.get_like(0));
-
-        assert!(news.get_like(0) != (0 as u64));
+    #[test]
+    fn get_all_test()
+    {
+        let mut news_storage = NewsStorage::default();
+        news_storage.add(String::from(""), String::from(""), String::from(""));
+        assert_eq!(news_storage.news.len(), news_storage.get_all().len());
     }
 }
