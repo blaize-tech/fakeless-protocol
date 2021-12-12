@@ -85,6 +85,30 @@ As you can see in `package.json`, this does two things:
 1. builds & deploys smart contract to NEAR TestNet
 2. builds & deploys frontend code to GitHub using [gh-pages]. This will only work if the project already has a repository set up on GitHub. Feel free to modify the `deploy` script in `package.json` to deploy elsewhere.
 
+Example usage
+=============
+
+1. Add news <br>
+<pre>
+<code>near call my-project.YOUR-NAME.testnet add '{"hash_head": "header_sha256", "hash_body": "body_sha256", "uri": "URI"}' --accountId YOUR-NAME.testnet</code>
+</pre>
+2. Upvote <br>
+<pre>
+<code>near call my-project.YOUR-NAME.testnet upvote '{"index": 0}' --accountId YOUR-NAME.testnet</code>
+</pre>
+3. Downvote <br>
+<pre>
+<code>near call my-project.YOUR-NAME.testnet downvote '{"index": 0}' --accountId YOUR-NAME.testnet</code>
+</pre>
+4. Receive all news <br>
+<pre>
+<code>near call my-project.YOUR-NAME.testnet get_all '{}' --accountId YOUR-NAME.testnet</code>
+</pre>
+5. Receive news by index <br>
+<pre>
+<code>near call my-project.YOUR-NAME.testnet get_by_index '{"index": 0}' --accountId YOUR-NAME.testnet</code>
+</pre>
+
 
 Troubleshooting
 ===============
