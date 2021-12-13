@@ -27,15 +27,14 @@ pub struct NewsStorage
     news: Vec<News>,
 }
 
-
 #[near_bindgen]
 impl NewsStorage
 {
-    pub fn add(&mut self, hash_head: String, hash_body:String, uri: String)
+    pub fn add(&mut self, hash_head: String, hash_body: String, uri: String)
     {
         self.news.push(News
             {
-                id: (self.news.len() as u32)+1, 
+                id: (self.news.len() as u32) + 1, 
                 hash_head, 
                 hash_body, 
                 uri,
