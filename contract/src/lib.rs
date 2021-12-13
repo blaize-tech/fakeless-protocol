@@ -59,16 +59,11 @@ impl NewsStorage
 
     pub fn upvote(&mut self, index: usize) 
     {
-        let log_message = format!("This account is {}", env::signer_account_id());
-            env::log(log_message.as_bytes());
         assert!(index < self.news.len());
         if !self.news[index].voted.contains(&env::signer_account_id())
         {
             self.news[index].like = self.news[index].like.saturating_add(1);
-            self.news[index].voted.insert(env::signer_account_id().clone()); //// signer_account_id ? ////
-
-            let log_message = format!("This account is {}", env::signer_account_id());
-            env::log(log_message.as_bytes());
+            self.news[index].voted.insert(env::signer_account_id().clone());
         }
         else
         {
