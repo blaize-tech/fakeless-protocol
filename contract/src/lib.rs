@@ -1,11 +1,12 @@
+use std::collections::HashSet;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::serde::{Serialize, Deserialize};
-use near_sdk::{near_bindgen, setup_alloc};
+use near_sdk::{env, near_bindgen, setup_alloc};
 
 setup_alloc!();
 
-#[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, BorshDeserialize, Debug, BorshSerialize, Clone)]
 #[serde(crate = "near_sdk::serde")]
 pub struct News
 {
@@ -15,14 +16,17 @@ pub struct News
     pub uri: String,
     pub like: u64,
     pub dislike: u64,
+    pub voted: HashSet<String>, 
+    pub creator: String,
 }
 
 #[near_bindgen]
-#[derive(Default, BorshDeserialize, BorshSerialize, Debug, Clone)]
+#[derive(Default, BorshDeserialize, BorshSerialize, Debug,  Clone)]
 pub struct NewsStorage
 {
     news: Vec<News>,
 }
+
 
 #[near_bindgen]
 impl NewsStorage
@@ -37,6 +41,8 @@ impl NewsStorage
                 uri,
                 like: 0,
                 dislike: 0,
+                voted: HashSet::new(),
+                creator: env::signer_account_id(),
             }
         );
     }
@@ -53,14 +59,39 @@ impl NewsStorage
 
     pub fn upvote(&mut self, index: usize) 
     {
+        let log_message = format!("This account is {}", env::signer_account_id());
+            env::log(log_message.as_bytes());
         assert!(index < self.news.len());
-        self.news[index].like = self.news[index].like.saturating_add(1);
+        if !self.news[index].voted.contains(&env::signer_account_id())
+        {
+            self.news[index].like = self.news[index].like.saturating_add(1);
+            self.news[index].voted.insert(env::signer_account_id().clone()); //// signer_account_id ? ////
+
+            let log_message = format!("This account is {}", env::signer_account_id());
+            env::log(log_message.as_bytes());
+        }
+        else
+        {
+
+            let log_message = format!("This account {} has already voted", env::signer_account_id());
+            env::log(log_message.as_bytes());
+        }
+        
     }
 
     pub fn downvote(&mut self, index: usize) 
     {
         assert!(index < self.news.len());
-        self.news[index].dislike = self.news[index].dislike.saturating_add(1);
+        if !self.news[index].voted.contains(&env::signer_account_id())
+        {
+            self.news[index].dislike = self.news[index].dislike.saturating_add(1);
+            self.news[index].voted.insert(env::signer_account_id().clone());
+        }
+        else
+        {
+            let log_message = format!("This account {} has already voted", env::signer_account_id());
+            env::log(log_message.as_bytes());
+        }
     }
 }
 
@@ -110,4 +141,5 @@ mod tests
         news_storage.add(String::from(""), String::from(""), String::from(""));
         assert_eq!(news_storage.news.len(), news_storage.get_all().len());
     }
+
 }
