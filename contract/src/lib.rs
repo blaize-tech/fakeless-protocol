@@ -131,8 +131,7 @@ impl NewsStorage {
         assert!(self.news[index].like>=100, "There are not enough likes to publish this news");
         assert_eq!(self.news[index].creator, env::signer_account_id().to_string(), "You are not a creator");
         self.tokens.owner_id = env::signer_account_id().try_into().unwrap();
-        let receiver_id = ValidAccountId::try_from(env::predecessor_account_id().clone()).unwrap();
-        self.tokens.mint(self.news[index].id.to_string().clone(), receiver_id , Some(TokenMetadata{
+        self.tokens.mint(self.news[index].id.to_string().clone(), ValidAccountId::try_from(env::signer_account_id().to_string().clone()).unwrap() , Some(TokenMetadata{
             title:Some(self.news[index].hash_head.clone()),
             description:Some(self.news[index].hash_body.clone()),
             media:Some("https://iat.kpi.ua/wp-content/uploads/2019/10/news-3.jpg".to_string()),
