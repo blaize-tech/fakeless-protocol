@@ -11,7 +11,7 @@ use near_sdk::{
 };
 use std::collections::HashSet;
 use near_sdk::serde::{Serialize, Deserialize};
-use std::convert::{TryInto, TryFrom};
+use std::convert::{TryInto};
 
 near_sdk::setup_alloc!();
 
@@ -27,6 +27,7 @@ pub struct News
     pub dislike: u64,
     pub voted: HashSet<String>, 
     pub creator: String,
+    pub published: bool
 }
 
 #[near_bindgen]
@@ -62,6 +63,7 @@ impl NewsStorage {
                 dislike: 0,
                 voted: HashSet::new(),
                 creator: env::signer_account_id(),
+                published: false
             }
         );
     }
@@ -125,13 +127,14 @@ impl NewsStorage {
     #[payable]
     pub fn nft_mint(
         &mut self,
-        index: usize,
+        index: usize
     ) -> Token {
         assert!(index < self.news.len());
         assert!(self.news[index].like>=100, "There are not enough likes to publish this news");
         assert_eq!(self.news[index].creator, env::signer_account_id().to_string(), "You are not a creator");
         self.tokens.owner_id = env::signer_account_id().try_into().unwrap();
-        self.tokens.mint(self.news[index].id.to_string().clone(), ValidAccountId::try_from(env::signer_account_id().to_string().clone()).unwrap() , Some(TokenMetadata{
+        self.news[index].published = true;
+        self.tokens.mint(self.news[index].id.to_string().clone(), env::signer_account_id().try_into().unwrap(), Some(TokenMetadata{
             title:Some(self.news[index].hash_head.clone()),
             description:Some(self.news[index].hash_body.clone()),
             media:Some("https://iat.kpi.ua/wp-content/uploads/2019/10/news-3.jpg".to_string()),
