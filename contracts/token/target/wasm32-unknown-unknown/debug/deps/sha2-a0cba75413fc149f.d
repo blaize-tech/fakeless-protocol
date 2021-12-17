@@ -1,0 +1,12 @@
+C:\Users\комфи\Documents\Near\purgatory\contracts\token\target\wasm32-unknown-unknown\debug\deps\sha2-a0cba75413fc149f.rmeta: C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\lib.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\consts.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256\soft.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512\soft.rs
+
+C:\Users\комфи\Documents\Near\purgatory\contracts\token\target\wasm32-unknown-unknown\debug\deps\libsha2-a0cba75413fc149f.rlib: C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\lib.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\consts.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256\soft.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512\soft.rs
+
+C:\Users\комфи\Documents\Near\purgatory\contracts\token\target\wasm32-unknown-unknown\debug\deps\sha2-a0cba75413fc149f.d: C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\lib.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\consts.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256\soft.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512\soft.rs
+
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\lib.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\consts.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha256\soft.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\sha2-0.9.3\src\sha512\soft.rs:

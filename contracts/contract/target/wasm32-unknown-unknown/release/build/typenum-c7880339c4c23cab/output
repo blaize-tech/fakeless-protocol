@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=C:\Users\комфи\Documents\Near\purgatory\contract\target\wasm32-unknown-unknown\release\build\typenum-c7880339c4c23cab\out\consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=C:\Users\комфи\Documents\Near\purgatory\contract\target\wasm32-unknown-unknown\release\build\typenum-c7880339c4c23cab\out\op.rs

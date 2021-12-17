@@ -1,0 +1,11 @@
+C:\Users\комфи\Documents\Near\purgatory\contracts\token\target\wasm32-unknown-unknown\debug\deps\wee_alloc-a1821d974ce1a57a.rmeta: C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs
+
+C:\Users\комфи\Documents\Near\purgatory\contracts\token\target\wasm32-unknown-unknown\debug\deps\libwee_alloc-a1821d974ce1a57a.rlib: C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs
+
+C:\Users\комфи\Documents\Near\purgatory\contracts\token\target\wasm32-unknown-unknown\debug\deps\wee_alloc-a1821d974ce1a57a.d: C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs
+
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs:
+C:\Users\комфи\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs:
