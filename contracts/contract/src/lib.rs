@@ -110,13 +110,6 @@ impl NewsStorage {
         ))
     }
 
-    pub fn downvote(&mut self, index: usize) 
-    {
-        assert!(index < self.news.len());
-        assert!(!self.news[index].voted.contains(&env::signer_account_id()));
-        self.news[index].dislike = self.news[index].dislike.saturating_add(1);
-        self.news[index].voted.insert(env::signer_account_id().clone());
-    }
     #[init]
     pub fn new_default_meta() -> Self {
         Self::new(
