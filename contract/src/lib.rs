@@ -131,7 +131,6 @@ impl NewsStorage {
     ) -> Token {
         assert!(index < self.news.len());
         assert!(self.news[index].like>=100, "There are not enough likes to publish this news");
-        assert!(self.news[index].published, "This news is already published");
         assert_eq!(self.news[index].creator, env::signer_account_id().to_string(), "You are not a creator");
         self.tokens.owner_id = env::signer_account_id().try_into().unwrap();
         self.news[index].published = true;
