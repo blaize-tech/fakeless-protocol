@@ -7,6 +7,12 @@
 /out
 /contract/target
 
+./dist/*
+./.cache/*
+./contract/.cargo
+./out/*
+./neardev/*
+
 #keys
 /neardev
 
