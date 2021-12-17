@@ -1,0 +1,30 @@
+[package]
+name = "vote_token"
+version = "0.0.1"
+authors = [
+    "Daria Cherniak <daria.ch@blaize.tech>",
+    "mark.ts@blaize.tech",
+    "orest.o@blaize.tech",
+    "pavlo.u@blaize.tech",
+    "kirill.m@blaize.tech",
+    "arseniy.k@blaize.tech"
+]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+near-sdk = "3.1.0"
+near-contract-standards = "3.1.1"
+
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+debug = false
+panic = "abort"
+overflow-checks = true
+
+[workspace]
+members = []
