@@ -183,6 +183,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "fakeless"
+version = "0.0.1"
+dependencies = [
+ "near-contract-standards",
+ "near-sdk",
+]
+
+[[package]]
 name = "generic-array"
 version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -404,14 +412,6 @@ dependencies = [
  "serde",
  "sha2",
  "sha3",
-]
-
-[[package]]
-name = "news_validator"
-version = "0.1.0"
-dependencies = [
- "near-contract-standards",
- "near-sdk",
 ]
 
 [[package]]

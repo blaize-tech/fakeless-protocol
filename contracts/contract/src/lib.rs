@@ -15,7 +15,7 @@ use std::convert::{TryInto};
 
 near_sdk::setup_alloc!();
 
-const LIKES_FOR_PUBLISH: u64 = 3;
+const LIKES_FOR_PUBLISH: u64 = 1;
 
 #[ext_contract(ext_contract_ft)]
 pub trait Contract {
