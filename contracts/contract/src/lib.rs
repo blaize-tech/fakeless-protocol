@@ -113,7 +113,7 @@ impl NewsStorage {
     }
 
     #[init]
-    pub fn new_default_meta() -> Self {
+    pub fn new_default_meta(vote_token_address: AccountId) -> Self {
         Self::new(
             NFTContractMetadata {
                 spec: NFT_METADATA_SPEC.to_string(),
@@ -124,11 +124,12 @@ impl NewsStorage {
                 reference: None,
                 reference_hash: None,
             },
+            vote_token_address
         )
     }
 
     #[init]
-    pub fn new(metadata: NFTContractMetadata) -> Self {
+    pub fn new(metadata: NFTContractMetadata, vote_token_address: AccountId) -> Self {
         metadata.assert_valid();
         Self {
             news: Vec::<News>::new(),
@@ -140,7 +141,7 @@ impl NewsStorage {
                 Some(StorageKey::Approval),
             ),
             metadata: LazyOption::new(StorageKey::Metadata, Some(&metadata)),
-            ft_account: "dev-1639755086783-53305020358560".to_string()
+            ft_account: vote_token_address
         }
     }
 
