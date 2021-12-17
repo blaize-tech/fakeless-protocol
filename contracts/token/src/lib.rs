@@ -11,10 +11,11 @@ near_sdk::setup_alloc!();
 
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
-pub struct Contract {
+pub struct Contract 
+{
     token: FungibleToken,
     metadata: LazyOption<FungibleTokenMetadata>,
-    voice_power: HashMap<AccountId, U128>,
+    vote_power: HashMap<AccountId, U128>,
     free_tokens: U128
 
 }
@@ -23,15 +24,17 @@ const DATA_IMAGE_SVG_NEAR_ICON: &str = "data:image/svg+xml,%3Csvg xmlns='http://
 
 
 #[near_bindgen]
-impl Contract {
+impl Contract 
+{
     #[init]
-    pub fn new_default_meta(total_supply: U128) -> Self {
+    pub fn new_default_meta(total_supply: U128) -> Self 
+    {
         Self::new(
             total_supply,
             FungibleTokenMetadata {
                 spec: FT_METADATA_SPEC.to_string(),
                 name: "FakelessToken".to_string(),
-                symbol: "EXAMPLE".to_string(),
+                symbol: "FNT".to_string(),
                 icon: Some(DATA_IMAGE_SVG_NEAR_ICON.to_string()),
                 reference: None,
                 reference_hash: None,
@@ -44,13 +47,14 @@ impl Contract {
     pub fn new(
         total_supply: U128,
         metadata: FungibleTokenMetadata,
-    ) -> Self {
+    ) -> Self 
+    {
         assert!(!env::state_exists(), "Already initialized");
         metadata.assert_valid();
         let mut this = Self {
             token: FungibleToken::new(b"a".to_vec()),
             metadata: LazyOption::new(b"m".to_vec(), Some(&metadata)),
-            voice_power: HashMap::new(),
+            vote_power: HashMap::new(),
             free_tokens: total_supply
         };
         this.token.internal_register_account(&env::current_account_id());
@@ -61,18 +65,18 @@ impl Contract {
     pub fn give_tokens_to(&mut self, amount: U128) 
     {
         assert!(amount.0<=self.free_tokens.0, "There is not enough free tokens");
-        if !self.token.accounts.contains_key(&env::signer_account_id()) {
+        if !self.token.accounts.contains_key(&env::signer_account_id()) 
+        {
             self.token.internal_register_account(&env::signer_account_id());
         }
 
         self.token
             .internal_transfer(&env::current_account_id(), &env::signer_account_id(), amount.into(), None);
         self.free_tokens = U128(self.free_tokens.0 - amount.0);
-        log!("Gived {:?} tokens to account @{}", amount, &env::signer_account_id());
-        log!("Free tokens {}", self.free_tokens.0);
-        log!(
-            "Full balance {:?}",
-            self.token.accounts.get(&env::signer_account_id())
+        log!("Gived {:?} tokens to account {}. Balance of this account is {:?}. Free tokens left: {}", 
+            amount, &env::signer_account_id(), 
+            self.token.accounts.get(&env::signer_account_id()),
+            self.free_tokens.0
         );
     }
 
@@ -81,43 +85,43 @@ impl Contract {
         assert!(amount.0<=self.token.accounts.get(&env::signer_account_id()).unwrap(), "There is not enough tokens on this account");
         self.token
             .internal_transfer(&env::signer_account_id(), &env::current_account_id(), amount.into(), None);
-        self.voice_power.insert(env::signer_account_id(), amount);
-        log!("Tokens on stake {:?}", self.voice_power.get(&env::signer_account_id()));
-        log!(
-            "Full balance {:?} on account",
-            self.token.accounts.get(&env::signer_account_id())
-        );
+        self.vote_power.insert(env::signer_account_id(), amount);
+        log!("Tokens on this account stake:  {:?}, token available on this account: {:?}", 
+            self.vote_power.get(&env::signer_account_id()),
+            self.token.accounts.get(&env::signer_account_id()));
     }
+
     pub fn unstake(&mut self,  amount: U128)
     {
-        assert!(self.voice_power.contains_key(&env::signer_account_id()), "This account hasn't staked tokens");
-        assert!(amount.0<=self.voice_power.get(&env::signer_account_id()).unwrap().0, "You want to unstake more than you have on stake balance");
+        assert!(self.vote_power.contains_key(&env::signer_account_id()), "This account hasn't staked tokens");
+        assert!(amount.0<=self.vote_power.get(&env::signer_account_id()).unwrap().0, "You want to unstake more than you have on stake balance");
         self.token
             .internal_transfer(&env::current_account_id(), &env::signer_account_id(), amount.into(), None);
-        if amount.0 < self.voice_power.get(&env::signer_account_id()).unwrap().0 
+        if amount.0 < self.vote_power.get(&env::signer_account_id()).unwrap().0 
         {
-            self.voice_power.insert(env::signer_account_id(), U128(self.voice_power.get(&env::signer_account_id()).unwrap().0 - amount.0));
+            self.vote_power.insert(env::signer_account_id(), U128(self.vote_power.get(&env::signer_account_id()).unwrap().0 - amount.0));
         } 
         else
         {
-            self.voice_power.remove(&env::signer_account_id());
+            self.vote_power.remove(&env::signer_account_id());
         }
 
-        log!("Tokens on stake {:?}", self.voice_power.get(&env::signer_account_id()));
-        log!(
-            "Full balance {:?} on account",
-            self.token.accounts.get(&env::signer_account_id())
-        );
+        log!("Tokens on this account stake:  {:?}, token available on this account: {:?}", 
+            self.vote_power.get(&env::signer_account_id()),
+            self.token.accounts.get(&env::signer_account_id()));
     }
+
     pub fn get_power(&self, user: AccountId) -> bool
     {
-        self.voice_power.contains_key(&user)
+        self.vote_power.contains_key(&user)
     }
 }
 
 #[near_bindgen]
-impl FungibleTokenMetadataProvider for Contract {
-    fn ft_metadata(&self) -> FungibleTokenMetadata {
+impl FungibleTokenMetadataProvider for Contract 
+{
+    fn ft_metadata(&self) -> FungibleTokenMetadata 
+    {
         self.metadata.get().unwrap()
     }
 }
