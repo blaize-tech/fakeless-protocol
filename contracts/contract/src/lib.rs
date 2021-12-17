@@ -7,13 +7,24 @@ use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::LazyOption;
 use near_sdk::json_types::ValidAccountId;
 use near_sdk::{
-    env, near_bindgen, AccountId, BorshStorageKey, PanicOnDefault, Promise, PromiseOrValue,
+    env, near_bindgen, ext_contract, AccountId, BorshStorageKey, PanicOnDefault, Promise, PromiseResult, PromiseOrValue,
 };
 use std::collections::HashSet;
 use near_sdk::serde::{Serialize, Deserialize};
-use std::convert::{TryInto, TryFrom};
+use std::convert::{TryInto};
 
 near_sdk::setup_alloc!();
+
+
+#[ext_contract(ext_contract_ft)]
+pub trait Contract {
+    fn get_power(&self, user: AccountId) -> bool;
+}
+
+#[ext_contract()]
+pub trait ExtSelf {
+    fn callback_promise_result(&mut self, index : usize, is_like : bool);
+}
 
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize, Debug, Clone)]
 #[serde(crate = "near_sdk::serde")]
@@ -27,6 +38,7 @@ pub struct News
     pub dislike: u64,
     pub voted: HashSet<String>, 
     pub creator: String,
+    pub published: bool
 }
 
 #[near_bindgen]
@@ -62,6 +74,7 @@ impl NewsStorage {
                 dislike: 0,
                 voted: HashSet::new(),
                 creator: env::signer_account_id(),
+                published: false
             }
         );
     }
@@ -76,12 +89,25 @@ impl NewsStorage {
         self.news[index].clone()
     }
 
-    pub fn upvote(&mut self, index: usize) 
+    pub fn vote(&mut self, index: usize, is_like : bool) -> Promise
     {
         assert!(index < self.news.len());
         assert!(!self.news[index].voted.contains(&env::signer_account_id()));
-        self.news[index].like = self.news[index].like.saturating_add(1);
-        self.news[index].voted.insert(env::signer_account_id().clone());
+        let ft_account: AccountId = "dev-1639755086783-53305020358560".to_string();
+
+        ext_contract_ft::get_power(
+            env::signer_account_id(),
+            &ft_account,
+            0,                             // attached yocto NEAR
+            5_000_000_000_000,              // attached gas
+        )
+        .then(ext_self::callback_promise_result(
+            index,
+            is_like,
+            &env::current_account_id(), // this contract's account id
+            0,                         // yocto NEAR to attach to the callback
+            5_000_000_000_000           // gas to attach to the callback
+        ))
     }
 
     pub fn downvote(&mut self, index: usize) 
@@ -131,6 +157,7 @@ impl NewsStorage {
         //assert!(self.news[index].like>=100, "There are not enough likes to publish this news");
         assert_eq!(self.news[index].creator, env::signer_account_id().to_string(), "You are not a creator");
         self.tokens.owner_id = env::signer_account_id().try_into().unwrap();
+        self.news[index].published = true;
         self.tokens.mint(self.news[index].id.to_string().clone(), env::signer_account_id().try_into().unwrap(), Some(TokenMetadata{
             title:Some(self.news[index].hash_head.clone()),
             description:Some(self.news[index].hash_body.clone()),
@@ -145,6 +172,27 @@ impl NewsStorage {
             reference: None, 
             reference_hash: None }))
     }
+
+    pub fn callback_promise_result(&mut self, index : usize, is_like : bool) 
+    {
+        let is_power = match env::promise_result(0) {
+            PromiseResult::NotReady =>  unreachable!(),
+            PromiseResult::Failed => env::panic(b"PANIC|callback_promise_result:PromiseResult::Failed"),
+            PromiseResult::Successful(result) => near_sdk::serde_json::from_slice::<bool>(&result).unwrap()
+        };
+
+        assert!(is_power, "You haven't staked");
+        if is_like
+        {
+            self.news[index].like = self.news[index].like.saturating_add(1);
+        }
+        else
+        {
+            self.news[index].dislike = self.news[index].dislike.saturating_add(1);
+        }
+        self.news[index].voted.insert(env::signer_account_id().clone());
+    }
+
 }
 
 near_contract_standards::impl_non_fungible_token_core!(NewsStorage, tokens);
